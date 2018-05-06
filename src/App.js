@@ -17,6 +17,10 @@ class App extends Component {
     }
   }
 
+  removeTrack(index) {
+    this.props.onRemoveTrack(index);
+  }
+
   render() {
     return (
       <div className="container">
@@ -24,15 +28,21 @@ class App extends Component {
           <div className="app-content__input">
             <input
               type="text"
-              ref={(input) => { this.trackInput = input }}
-              onKeyUp={(event) => this.addTrackFromInputField(event)} />
+              ref={(input) => {
+                this.trackInput = input
+              }}
+              onKeyUp={(event) => this.addTrackFromInputField(event)}/>
             <button onClick={this.addTrack.bind(this)}>Add track</button>
           </div>
 
           <div className="app-content__list">
             <ul>
-              {this.props.testStore.map((track, i) => {
-                return <li key={i}>{track}</li>
+              {this.props.testStore.map((track) => {
+                return <li key={track.id}
+                  onClick={() => this.removeTrack(track.id)}>
+                  <b> {track.id + 1} </b>
+                  {track.title}
+                </li>
               })}
             </ul>
           </div>
@@ -44,13 +54,18 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    testStore: state
+    testStore: state.tracks
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddTrack: (trackName) => { dispatch({ type: actionTypes.ADD_TRACK, payload: trackName }) }
+    onAddTrack: (trackName) => {
+      dispatch({ type: actionTypes.ADD_TRACK, payload: trackName })
+    },
+    onRemoveTrack: (trackId) => {
+      dispatch({ type: actionTypes.REMOVE_TRACK, payload: trackId })
+    }
   }
 };
 

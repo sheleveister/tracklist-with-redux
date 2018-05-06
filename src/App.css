@@ -48,7 +48,16 @@ ul {
 li {
   background-color: white;
   margin: 12px;
-  padding: 12px 60px;
+  padding: 12px 20px;
   border-radius: 2px;
   border: 1px solid transparent;
+  width: 395px;
+}
+
+li:hover {
+  cursor: pointer;
+}
+
+b {
+  margin-right: 20px;
 }
